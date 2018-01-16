@@ -14,19 +14,19 @@ node('master') {
 
     stage('Build an image with App') {
         sh """
-          docker-compose build app:1
+          docker-compose build app
         """
     }
 
     stage('Build an image with Tests') {
         sh """
-          docker-compose build robottests:1
+          docker-compose build robottests
         """
     }
 
     stage('Run Docker Compose') {
         sh """#!/bin/bash -e
-          docker-compose run --rm robottests:1  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:chrome tests/
+          docker-compose run --rm robottests  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:chrome tests/
         """
     }
 
