@@ -1,5 +1,5 @@
 #!groovy
-node {
+node('master') {
   wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
     stage("Checkout") {
       checkout scm
