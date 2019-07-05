@@ -1,4 +1,3 @@
-
 #!groovy
 node {
   wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
