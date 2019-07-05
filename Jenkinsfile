@@ -21,7 +21,7 @@ pipeline {
     }
     stage('Run Selenium Tests') {
       steps{
-          try {
+          script {
             sh """#!/bin/bash -e
             # Build, create and start containers in a background
             docker-compose -p ${TAG} up -d --build
