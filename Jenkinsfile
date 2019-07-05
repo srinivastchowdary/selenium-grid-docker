@@ -4,5 +4,11 @@ node {
     stage("Checkout") {
       checkout scm
     }
+     stage("Cleaning and preparing") {
+      sh '''#!/bin/bash -e
+        git clean -dfx
+        mkdir reports
+      '''
+    }
   }
 }
