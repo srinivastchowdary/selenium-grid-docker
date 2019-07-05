@@ -11,5 +11,13 @@ pipeline {
         checkout scm
       }
     }
+    stage("Cleaning and preparing") {
+      steps {
+        sh """#!/bin/bash -e
+          git clean -dfx
+          mkdir reports
+        """
+      }
+    }
   }
 }
