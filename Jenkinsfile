@@ -1,19 +1,15 @@
-#!groovy
-node {
-  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+pipeline {
+  agent any
+
+  environment {
+    TAG = "demo_${env.BRANCH_NAME}_${env.BUILD_NUMBER}"
+  }
+
+  stages {
     stage("Checkout") {
-      checkout scm
-    }
-     stage("Cleaning and preparing") {
-      sh '''#!/bin/bash -e
-        git clean -dfx
-        mkdir reports
-      '''
-    }
-     stage('Build an image with App') {
-        sh """
-          docker-compose build app:{BUILD_NUMBER}
-        """
+      steps {
+        checkout scm
+      }
     }
   }
 }
