@@ -10,5 +10,10 @@ node {
         mkdir reports
       '''
     }
+     stage('Build an image with App') {
+        sh """
+          docker-compose build app:{BUILD_NUMBER}
+        """
+    }
   }
 }
