@@ -4,7 +4,7 @@ from time import gmtime, strftime
 app = Flask(__name__)
 
 def make_time_now():
-    return strftime("%a, %d %b %Y %H:%M", gmtime())
+    return strftime("%a, %d %b %Y %H:%M", istime())
 
 @app.route('/')
 def hello():
