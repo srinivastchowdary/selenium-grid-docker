@@ -30,10 +30,6 @@ node('master') {
         """
     }
 
-   # stage('Stop all containers') {
-       # sh """#!/bin/bash -e
-          #docker-compose down
-       # """
-   # }
+     
   }
 }
