@@ -1,11 +1,7 @@
-#!/usr/bin/env groovy
-pipeline {
-  agent any
-
-  environment {
-    TAG = "demo_${env.BRANCH_NAME}_${env.BUILD_NUMBER}"
-  }
- stage("Checkout") {
+#!groovy
+node('master') {
+  wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
+    stage("Checkout") {
       checkout scm
     }
 
@@ -15,22 +11,10 @@ pipeline {
         mkdir reports
       '''
     }
-
-    stage('Build an image with App') {
-        sh """
-          docker-compose build app:{BUILD_NUMBER}
-        """
-    }
-
-    stage('Build an image with Tests') {
-        sh """
-          docker-compose build robottests:{BUILD_NUMBER}
-        """
-    }
-
     stage('Run Docker Compose') {
         sh """#!/bin/bash -e
-          docker-compose run --rm robottests:{BUILD_NUMBER}  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:firefox tests/
+          docker-compose -p my_unique_project up -d --build
+          docker-compose -p my_unique_project exec robottests ./wait-for-it.sh -t 15 selenium_hub:4444 -- robot -d reports  --variablefile variables/config.py  --variable BROWSER:firefox tests/
         """
     }
 
@@ -40,3 +24,4 @@ pipeline {
         """
     }
   }
+}
