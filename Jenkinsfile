@@ -13,13 +13,13 @@ node('master') {
     }
 
     stage('Build an image with App') {
-        sh """
+        sh """#!/bin/bash -e
           docker-compose build app
         """
     }
 
     stage('Build an image with Tests') {
-        sh """
+        sh """#!/bin/bash -e
           docker-compose build robottests
         """
     }
@@ -31,7 +31,7 @@ node('master') {
     }
 
     stage('Stop all containers') {
-        sh """
+        sh """#!/bin/bash -e
           docker-compose down
         """
     }
