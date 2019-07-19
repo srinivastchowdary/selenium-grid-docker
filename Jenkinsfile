@@ -30,7 +30,7 @@ pipeline {
 
     stage('Run Docker Compose') {
         sh """#!/bin/bash -e
-          docker-compose run --rm robottests:{BUILD_NUMBER}  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:chrome tests/
+          docker-compose run --rm robottests:{BUILD_NUMBER}  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:firefox tests/
         """
     }
 
