@@ -35,7 +35,7 @@ services:
 
   robottests:
     command: [
-      "robot", "-d", "reports", "--variablefile", "variables/config.py", "--variable", "BROWSER:chrome", "tests/"]
+      "robot", "-d", "reports", "--variablefile", "variables/config.py", "--variable", "BROWSER:firefox", "tests/"]
     networks:
       robottestsnw: {}
     depends_on:
