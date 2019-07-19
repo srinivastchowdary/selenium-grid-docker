@@ -26,7 +26,8 @@ node('master') {
 
     stage('Run Docker Compose') {
         sh """#!/bin/bash -e
-          docker-compose run --rm robottests  ./wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:firefox tests/
+          docker-compose -p my_unique_project up -d --build
+          docker-compose -p my_unique_project exec robottests ./wait-for-it.sh -t 15 selenium_hub:4444 -- robot -d reports  --variablefile variables/config.py  --variable BROWSER:firefox tests/
         """
     }
 
