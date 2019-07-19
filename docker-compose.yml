@@ -2,7 +2,6 @@ version: '2'
 services:
 
   selenium_hub:
-    container_name: selenium_hub
     image: selenium/hub
     networks:
       robottestsnw: {}
@@ -10,50 +9,42 @@ services:
       - "4444"
 
   firefoxnode:
-    container_name: firefox_node
     image: selenium/node-firefox
     networks:
       robottestsnw: {}
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium_hub
       - HUB_PORT_4444_TCP_PORT=4444
-    depends_on:
-      - selenium_hub
-    ports:
-      - 5554
 
   chromenode:
-    container_name: chrome_node
     image: selenium/node-chrome
     networks:
       robottestsnw: {}
     environment:
       - HUB_PORT_4444_TCP_ADDR=selenium_hub
       - HUB_PORT_4444_TCP_PORT=4444
-    depends_on:
-      - selenium_hub
     ports:
       - 5555
 
   app:
-    container_name: demo_app
     build: app/.
     networks:
       robottestsnw: {}
     ports:
-      - 80
+      - "80"
 
   robottests:
-    container_name: demo_selenium_tests
-    command: /bin/sleep infinity
     networks:
       robottestsnw: {}
+    command: testui/wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:firefox tests/
     depends_on:
       - selenium_hub
+      - chromenode
+      - firefoxnode
       - app
     build: testui/.
     volumes:
-      - ./reports:/frontend-integration-tests/reports
+      - {WORKSPACE}/reports:/frontend-integration-tests/reports
 
 networks:
   robottestsnw:
