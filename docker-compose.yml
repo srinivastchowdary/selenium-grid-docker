@@ -34,9 +34,10 @@ services:
       - "80"
 
   robottests:
+    command: [
+      "robot", "-d", "reports", "--variablefile", "variables/config.py", "--variable", "BROWSER:chrome", "tests/"]
     networks:
       robottestsnw: {}
-    command: testui/wait-for-it.sh -t 15 chromenode:5555 -- robot -d reports --variablefile variables/config.py --variable BROWSER:firefox tests/
     depends_on:
       - selenium_hub
       - chromenode
@@ -44,7 +45,7 @@ services:
       - app
     build: testui/.
     volumes:
-      - {WORKSPACE}/reports:/frontend-integration-tests/reports
+      - ./reports:/frontend-integration-tests/reports
 
 networks:
   robottestsnw:
