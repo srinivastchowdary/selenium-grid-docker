@@ -24,7 +24,7 @@ pipeline {
 
     stage('Run Selenium Tests') {
       steps {
-        try {
+        try 
           sh '''
             # Build, create and start containers in a background
             docker-compose -p ${TAG} up -d --build
@@ -33,7 +33,7 @@ pipeline {
             # Wait for chromemode to be up and execute selenium tests in robottests container
             docker-compose -p ${TAG} run robottests -t 15 chromenode:5555 -- robot -d reports -x xunit --variablefile variables/config.py --variable BROWSER:chrome tests/
           '''
-        } finally {
+         finally 
           publishHTML target: [
           allowMissing: false,
           alwaysLinkToLastBuild: true,
@@ -48,7 +48,7 @@ pipeline {
             # Stop and remove the containers
             docker-compose -p ${TAG} down
           """
-        }
+        
       }
     }
   }
